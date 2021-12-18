@@ -1,3 +1,12 @@
+/*
+ * Full Name        : Negin Saeidi
+ * Student ID       : 101261395
+ * Date Modified    : December 18, 2021
+ * File             : ShrinkingPlatformController.cs
+ * Description      : This is the ShrinkingPlatformController script - Moves the platform up and down, shrinks and grow the platform
+ * Version          : V01
+ * Revision History : added timer 
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,14 +46,17 @@ public class ShrinkingPlatformController : MonoBehaviour
         _Move();
         ShrinkAndGrow();
     }
-
+    // Moving platform
     private void _Move()
     {
         float pingPongValue =Mathf.PingPong(Time.time * speed, distance);
         transform.position = new Vector2(transform.position.x, startingPosition.y + pingPongValue);
 
     }
-
+    // if player lands on this platform
+    // plays shrink sound.
+    // set isShrinking to true.
+    // Set isGrowing to false.
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if(collision.gameObject.tag=="Player")
@@ -61,8 +73,11 @@ public class ShrinkingPlatformController : MonoBehaviour
 		}
 	}
 
-
-	private void OnTriggerExit2D(Collider2D collision)
+    // if player exits  this platform
+    // plays reset sound.
+    // set isShrinking to false.
+    // Set isGrowing to true.
+    private void OnTriggerExit2D(Collider2D collision)
 	{
         if (collision.gameObject.tag == "Player")
         {
@@ -77,12 +92,13 @@ public class ShrinkingPlatformController : MonoBehaviour
             }
         }
     }
-
+    // scale the platform based on isShrinking or isGrowing 
     private void ShrinkAndGrow()
 	{
          if (isShrinking)
         {
-            
+            if (timer > waitTime)
+            {
 
                 transform.localScale -= Vector3.one * ScalingFactor;
                 if (transform.localScale.x <= 0.2)
@@ -91,7 +107,7 @@ public class ShrinkingPlatformController : MonoBehaviour
                     isShrinking = false;
                     isGrowing = true;
                 }
-            
+            }
 		}
         else if(isGrowing)
 		{
