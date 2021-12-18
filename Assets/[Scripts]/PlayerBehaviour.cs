@@ -213,8 +213,19 @@ public class PlayerBehaviour : MonoBehaviour
 
             if ((joystick.Vertical > joystickVerticalSensitivity) && (!isJumping))
             {
-                // jump
-                m_rigidBody2D.AddForce(Vector2.up * verticalForce);
+                if (joystick.Horizontal > joystickHorizontalSensitivity)
+                {
+                    m_rigidBody2D.AddForce( new Vector2(0.15f,1) * verticalForce);
+                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+                }
+                else if (joystick.Horizontal < -joystickHorizontalSensitivity)
+				{
+                    m_rigidBody2D.AddForce(new Vector2(-0.15f, 1) * verticalForce);
+                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+
+                }
+                    // jump
                 m_animator.SetInteger("AnimState", (int) PlayerAnimationType.JUMP);
                 isJumping = true;
 
