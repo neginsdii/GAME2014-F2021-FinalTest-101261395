@@ -97,8 +97,7 @@ public class ShrinkingPlatformController : MonoBehaviour
 	{
          if (isShrinking)
         {
-            if (timer > waitTime)
-            {
+           
 
                 transform.localScale -= Vector3.one * ScalingFactor;
                 if (transform.localScale.x <= 0.2)
@@ -107,7 +106,7 @@ public class ShrinkingPlatformController : MonoBehaviour
                     isShrinking = false;
                     isGrowing = true;
                 }
-            }
+            
 		}
         else if(isGrowing)
 		{
